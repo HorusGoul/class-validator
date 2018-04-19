@@ -269,14 +269,14 @@ export class Validator {
      * Checks if value matches ("===") the comparison.
      */
     equals(value: any, comparison: any): boolean {
-        return value === comparison;
+        return !this.isDefined(value) || value === comparison;
     }
 
     /**
      * Checks if value does not match ("!==") the comparison.
      */
     notEquals(value: any, comparison: any): boolean {
-        return value !== comparison;
+        return !this.isDefined(value) || value !== comparison;
     }
 
     /**
@@ -297,14 +297,14 @@ export class Validator {
      * Checks if given value is in a array of allowed values.
      */
     isIn(value: any, possibleValues: any[]): boolean {
-        return !(possibleValues instanceof Array) || possibleValues.some(possibleValue => possibleValue === value);
+        return !this.isDefined(value) || !(possibleValues instanceof Array) || possibleValues.some(possibleValue => possibleValue === value);
     }
 
     /**
      * Checks if given value not in a array of allowed values.
      */
     isNotIn(value: any, possibleValues: any[]): boolean {
-        return !(possibleValues instanceof Array) || !possibleValues.some(possibleValue => possibleValue === value);
+        return !this.isDefined(value) ||  !(possibleValues instanceof Array) || !possibleValues.some(possibleValue => possibleValue === value);
     }
 
     // -------------------------------------------------------------------------
@@ -315,21 +315,21 @@ export class Validator {
      * Checks if a given value is a real boolean.
      */
     isBoolean(value: any): boolean {
-        return value instanceof Boolean || typeof value === "boolean";
+        return !this.isDefined(value) || value instanceof Boolean || typeof value === "boolean";
     }
 
     /**
      * Checks if a given value is a real date.
      */
     isDate(value: any): boolean {
-        return value instanceof Date && !isNaN(value.getTime());
+        return !this.isDefined(value) || value instanceof Date && !isNaN(value.getTime());
     }
 
     /**
      * Checks if a given value is a real string.
      */
     isString(value: any): boolean {
-        return value instanceof String || typeof value === "string";
+        return !this.isDefined(value) || value instanceof String || typeof value === "string";
     }
 
     /**
@@ -337,14 +337,14 @@ export class Validator {
      */
     isDateString(value: any): boolean {
         const regex = /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|\+[0-2]\d(?:\:[0-5]\d)?)?/g;
-        return this.isString(value) && regex.test(value);
+        return !this.isDefined(value) || this.isString(value) && regex.test(value);
     }
 
     /**
      * Checks if a given value is an array
      */
     isArray(value: any): boolean {
-        return value instanceof Array;
+        return !this.isDefined(value) || value instanceof Array;
     }
 
     /**
@@ -353,13 +353,17 @@ export class Validator {
     isEnum(value: any, entity: any): boolean {
         const enumValues = Object.keys(entity)
             .map(k => entity[k]);
-        return enumValues.indexOf(value) >= 0;
+        return !this.isDefined(value) || enumValues.indexOf(value) >= 0;
     }
 
     /**
      * Checks if a given value is a number.
      */
     isNumber(value: any, options: IsNumberOptions = {}): boolean {
+        if (!this.isDefined(value)) {
+            return true;
+        }
+
         if (value === Infinity || value === -Infinity) {
             return options.allowInfinity;
         }
@@ -374,8 +378,8 @@ export class Validator {
     /**
      * Checks if value is an integer.
      */
-    isInt(val: number): boolean {
-        return Number.isInteger(val);
+    isInt(value: number): boolean {
+        return !this.isDefined(value) || Number.isInteger(value);
     }
 
     // -------------------------------------------------------------------------
@@ -386,6 +390,10 @@ export class Validator {
      * Checks if value is a number that's divisible by another.
      */
     isDivisibleBy(value: number, num: number): boolean {
+        if (!this.isDefined(value)) {
+            return true;
+        }
+
         return  typeof value === "number" &&
             typeof num === "number" &&
             this.validatorJs.isDivisibleBy(String(value), num);
@@ -395,28 +403,28 @@ export class Validator {
      * Checks if the value is a positive number.
      */
     isPositive(value: number): boolean {
-        return typeof value === "number" && value > 0;
+        return !this.isDefined(value) || typeof value === "number" && value > 0;
     }
 
     /**
      * Checks if the value is a negative number.
      */
     isNegative(value: number): boolean {
-        return typeof value === "number" && value < 0;
+        return !this.isDefined(value) || typeof value === "number" && value < 0;
     }
 
     /**
      * Checks if the first number is greater than second.
      */
     min(num: number, min: number): boolean {
-        return typeof num === "number" && typeof min === "number" && num >= min;
+        return !this.isDefined(num) || typeof num === "number" && typeof min === "number" && num >= min;
     }
 
     /**
      * Checks if the first number is less than second.
      */
     max(num: number, max: number): boolean {
-        return typeof num === "number" && typeof max === "number" && num <= max;
+        return !this.isDefined(num) || typeof num === "number" && typeof max === "number" && num <= max;
     }
 
     // -------------------------------------------------------------------------
@@ -427,14 +435,14 @@ export class Validator {
      * Checks if the value is a date that's after the specified date.
      */
     minDate(date: Date, minDate: Date): boolean {
-        return date && date.getTime() >= minDate.getTime();
+        return !this.isDefined(date) || date && date.getTime() >= minDate.getTime();
     }
 
     /**
      * Checks if the value is a date that's before the specified date.
      */
     maxDate(date: Date, maxDate: Date): boolean {
-        return date && date.getTime() <= maxDate.getTime();
+        return !this.isDefined(date) || date && date.getTime() <= maxDate.getTime();
     }
 
     // -------------------------------------------------------------------------
@@ -446,7 +454,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isBooleanString(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isBoolean(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isBoolean(value);
     }
 
     /**
@@ -454,7 +462,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isNumberString(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isNumeric(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isNumeric(value);
     }
 
     // -------------------------------------------------------------------------
@@ -466,7 +474,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     contains(value: string, seed: string): boolean {
-        return typeof value === "string" && this.validatorJs.contains(value, seed);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.contains(value, seed);
     }
 
     /**
@@ -474,7 +482,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     notContains(value: string, seed: string): boolean {
-        return typeof value === "string" && !this.validatorJs.contains(value, seed);
+        return !this.isDefined(value) || typeof value === "string" && !this.validatorJs.contains(value, seed);
     }
 
     /**
@@ -482,7 +490,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isAlpha(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isAlpha(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isAlpha(value);
     }
 
     /**
@@ -490,7 +498,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isAlphanumeric(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isAlphanumeric(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isAlphanumeric(value);
     }
 
     /**
@@ -498,7 +506,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isAscii(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isAscii(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isAscii(value);
     }
 
     /**
@@ -506,7 +514,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isBase64(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isBase64(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isBase64(value);
     }
 
     /**
@@ -514,7 +522,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isByteLength(value: string, min: number, max?: number): boolean {
-        return typeof value === "string" && this.validatorJs.isByteLength(value, min, max);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isByteLength(value, min, max);
     }
 
     /**
@@ -522,7 +530,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isCreditCard(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isCreditCard(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isCreditCard(value);
     }
 
     /**
@@ -530,7 +538,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isCurrency(value: string, options?: IsCurrencyOptions): boolean {
-        return typeof value === "string" && this.validatorJs.isCurrency(value, options);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isCurrency(value, options);
     }
 
     /**
@@ -538,7 +546,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isEmail(value: string, options?: IsEmailOptions): boolean {
-        return typeof value === "string" && this.validatorJs.isEmail(value, options);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isEmail(value, options);
     }
 
     /**
@@ -546,7 +554,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isFQDN(value: string, options?: IsFQDNOptions): boolean {
-        return typeof value === "string" && this.validatorJs.isFQDN(value, options);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isFQDN(value, options);
     }
 
     /**
@@ -554,7 +562,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isFullWidth(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isFullWidth(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isFullWidth(value);
     }
 
     /**
@@ -562,7 +570,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isHalfWidth(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isHalfWidth(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isHalfWidth(value);
     }
 
     /**
@@ -570,7 +578,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isVariableWidth(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isVariableWidth(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isVariableWidth(value);
     }
 
     /**
@@ -578,7 +586,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isHexColor(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isHexColor(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isHexColor(value);
     }
 
     /**
@@ -586,7 +594,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isHexadecimal(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isHexadecimal(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isHexadecimal(value);
     }
 
     /**
@@ -594,7 +602,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isIP(value: string, version?: "4"|"6"): boolean {
-        return typeof value === "string" && this.validatorJs.isIP(value, version);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isIP(value, version);
     }
 
     /**
@@ -602,7 +610,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isISBN(value: string, version?: "10"|"13"): boolean {
-        return typeof value === "string" && this.validatorJs.isISBN(value, version);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isISBN(value, version);
     }
 
     /**
@@ -610,7 +618,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isISIN(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isISIN(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isISIN(value);
     }
 
     /**
@@ -618,7 +626,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isISO8601(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isISO8601(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isISO8601(value);
     }
 
     /**
@@ -626,7 +634,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isJSON(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isJSON(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isJSON(value);
     }
 
     /**
@@ -634,7 +642,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isLowercase(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isLowercase(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isLowercase(value);
     }
 
     /**
@@ -643,7 +651,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isMobilePhone(value: string, locale: string): boolean {
-        return typeof value === "string" && this.validatorJs.isMobilePhone(value, locale);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isMobilePhone(value, locale);
     }
 
     /**
@@ -651,7 +659,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isMongoId(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isMongoId(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isMongoId(value);
     }
 
     /**
@@ -659,7 +667,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isMultibyte(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isMultibyte(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isMultibyte(value);
     }
 
     /**
@@ -667,7 +675,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isSurrogatePair(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isSurrogatePair(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isSurrogatePair(value);
     }
 
     /**
@@ -675,7 +683,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isURL(value: string, options?: IsURLOptions): boolean {
-        return typeof value === "string" && this.validatorJs.isURL(value, options);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isURL(value, options);
     }
 
     /**
@@ -683,7 +691,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isUUID(value: string, version?: "3"|"4"|"5"): boolean {
-        return typeof value === "string" && this.validatorJs.isUUID(value, version);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isUUID(value, version);
     }
 
     /**
@@ -691,7 +699,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     isUppercase(value: string): boolean {
-        return typeof value === "string" && this.validatorJs.isUppercase(value);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isUppercase(value);
     }
 
     /**
@@ -699,7 +707,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     length(value: string, min: number, max?: number): boolean {
-        return typeof value === "string" && this.validatorJs.isLength(value, min, max);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.isLength(value, min, max);
     }
 
     /**
@@ -707,7 +715,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     minLength(value: string, min: number) {
-        return typeof value === "string" && this.length(value, min);
+        return !this.isDefined(value) || typeof value === "string" && this.length(value, min);
     }
 
     /**
@@ -715,7 +723,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     maxLength(value: string, max: number) {
-        return typeof value === "string" && this.length(value, 0, max);
+        return !this.isDefined(value) || typeof value === "string" && this.length(value, 0, max);
     }
 
     /**
@@ -723,7 +731,7 @@ export class Validator {
      * If given value is not a string, then it returns false.
      */
     matches(value: string, pattern: RegExp, modifiers?: string): boolean {
-        return typeof value === "string" && this.validatorJs.matches(value, pattern, modifiers);
+        return !this.isDefined(value) || typeof value === "string" && this.validatorJs.matches(value, pattern, modifiers);
     }
 
     /**
@@ -731,7 +739,7 @@ export class Validator {
      * If the given value does not match the pattern HH:MM, then it returns false.
      */
     isMilitaryTime(value: string): boolean {
-        return this.matches(value, /^([01]\d|2[0-3]):?([0-5]\d)$/);
+        return !this.isDefined(value) || this.matches(value, /^([01]\d|2[0-3]):?([0-5]\d)$/);
     }
 
     // -------------------------------------------------------------------------
@@ -740,9 +748,12 @@ export class Validator {
 
     /**
      * Checks if array contains all values from the given array of values.
-     * If null or undefined is given then this function returns false.
      */
     arrayContains(array: any[], values: any[]) {
+        if (!this.isDefined(array)) {
+            return true;
+        }
+
         if (!(array instanceof Array))
             return false;
 
@@ -751,9 +762,12 @@ export class Validator {
 
     /**
      * Checks if array does not contain any of the given values.
-     * If null or undefined is given then this function returns false.
      */
     arrayNotContains(array: any[], values: any[]) {
+        if (!this.isDefined(array)) {
+            return true;
+        }
+
         if (!(array instanceof Array))
             return false;
 
@@ -762,9 +776,12 @@ export class Validator {
 
     /**
      * Checks if given array is not empty.
-     * If null or undefined is given then this function returns false.
      */
     arrayNotEmpty(array: any[]) {
+        if (!this.isDefined(array)) {
+            return true;
+        }
+
         if (!(array instanceof Array))
             return false;
 
@@ -776,6 +793,10 @@ export class Validator {
      * If null or undefined is given then this function returns false.
      */
     arrayMinSize(array: any[], min: number) {
+        if (!this.isDefined(array)) {
+            return true;
+        }
+
         if (!(array instanceof Array))
             return false;
 
@@ -787,6 +808,10 @@ export class Validator {
      * If null or undefined is given then this function returns false.
      */
     arrayMaxSize(array: any[], max: number) {
+        if (!this.isDefined(array)) {
+            return true;
+        }
+
         if (!(array instanceof Array))
             return false;
 
@@ -798,6 +823,10 @@ export class Validator {
      * If null or undefined is given then this function returns false.
      */
     arrayUnique(array: any[]) {
+        if (!this.isDefined(array)) {
+            return true;
+        }
+
         if (!(array instanceof Array))
             return false;
 
@@ -809,6 +838,10 @@ export class Validator {
      * Checks if the value is an instance of the specified object.
      */
     isInstance(object: any, targetTypeConstructor: new (...args: any[]) => any) {
+        if (!this.isDefined(object)) {
+            return true;
+        }
+
         return targetTypeConstructor
             && typeof targetTypeConstructor === "function"
             && object instanceof targetTypeConstructor;

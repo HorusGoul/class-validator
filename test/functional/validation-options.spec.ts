@@ -21,7 +21,7 @@ describe("validation options", function() {
                 @Contains("hello", {
                     message: "String is not valid. You string must contain a hello word"
                 })
-                someProperty: string;
+                someProperty: string = "foobar";
             }
 
             const model = new MyClass();

@@ -1,5 +1,5 @@
 import "es6-shim";
-import {expect} from "chai";
+import {expect, should} from "chai";
 import {
     IsBooleanString,
     IsPositive,
@@ -67,6 +67,8 @@ import {
 } from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
+
+should(); // make IDE support running this file directly
 
 // -------------------------------------------------------------------------
 // Helper functions
@@ -172,7 +174,7 @@ describe("IsDefined", function() {
 describe("Equals", function() {
 
     const constraint = "Alex";
-    const validValues = ["Alex"];
+    const validValues = ["Alex", null, undefined];
     const invalidValues = ["Alexxx"];
 
     class MyClass {
@@ -207,7 +209,7 @@ describe("Equals", function() {
 describe("NotEquals", function() {
 
     const constraint = "Alex";
-    const validValues = ["Alexxx"];
+    const validValues = ["Alexxx", null, undefined];
     const invalidValues = ["Alex"];
 
     class MyClass {
@@ -310,7 +312,7 @@ describe("IsNotEmpty", function() {
 describe("IsIn", function() {
 
     const constraint = ["foo", "bar"];
-    const validValues = ["foo", "bar"];
+    const validValues = ["foo", "bar", null, undefined];
     const invalidValues = ["foobar", "barfoo", ""];
 
     class MyClass {
@@ -345,7 +347,7 @@ describe("IsIn", function() {
 describe("IsNotIn", function() {
 
     const constraint = ["foo", "bar"];
-    const validValues = ["foobar", "barfoo", ""];
+    const validValues = ["foobar", "barfoo", "", null, undefined];
     const invalidValues = ["foo", "bar"];
 
     class MyClass {
@@ -383,8 +385,8 @@ describe("IsNotIn", function() {
 
 describe("IsBoolean", function() {
 
-    const validValues = [true, false];
-    const invalidValues = [0, 1, "true", null, undefined];
+    const validValues = [true, false, null, undefined];
+    const invalidValues = [0, 1, "true"];
 
     class MyClass {
         @IsBoolean()
@@ -417,7 +419,7 @@ describe("IsBoolean", function() {
 
 describe("IsDate", function() {
 
-    const validValues = [new Date()];
+    const validValues = [new Date(), null, undefined];
     const invalidValues = [1, true, false, "Mon Aug 17 2015 00:24:56 GMT-0500 (CDT)", "2009-05-19 14:39:22-06:00"];
 
     class MyClass {
@@ -451,8 +453,8 @@ describe("IsDate", function() {
 
 describe("IsNumber", function() {
 
-    const validValues = [0, 1, 2, 3, 4, 5.4, -10];
-    const invalidValues = ["1", "0", true, false, "-100", "abc", undefined, null];
+    const validValues = [0, 1, 2, 3, 4, 5.4, -10, null, undefined];
+    const invalidValues = ["1", "0", true, false, "-100", "abc"];
 
     class MyClass {
         @IsNumber()
@@ -511,7 +513,7 @@ describe("IsNumber", function() {
 
 describe("IsInt", function() {
 
-    const validValues = [2, 4, 100, 1000];
+    const validValues = [2, 4, 100, 1000, null, undefined];
     const invalidValues = [
         "01",
         "-01",
@@ -555,15 +557,8 @@ describe("IsInt", function() {
 
 describe("IsString", function() {
 
-    const validValues = ["true", "false", "hello", "0", "", "1"];
-    const invalidValues = [
-        true,
-        false,
-        1,
-        2,
-        null,
-        undefined
-    ];
+    const validValues = ["true", "false", "hello", "0", "", "1", null, undefined];
+    const invalidValues = [true, false, 1, 2];
 
     class MyClass {
         @IsString()
@@ -603,14 +598,14 @@ describe("IsDateString", function() {
         "2018-01-04T08:15:30Z",
         "2018-01-04T08:15:30+04:00",
         "2018-01-04T08:15:30+04",
+        null,
+        undefined
     ];
     const invalidValues = [
         true,
         false,
         1,
         2,
-        null,
-        undefined,
         "text"
     ];
 
@@ -646,14 +641,12 @@ describe("IsDateString", function() {
 
 describe("IsArray", function() {
 
-    const validValues = [[], [1, 2, 3], [0, 0, 0], [""], [0], [undefined], [{}], new Array()];
+    const validValues = [[], [1, 2, 3], [0, 0, 0], [""], [0], [undefined], [{}], new Array(), null, undefined];
     const invalidValues = [
         true,
         false,
         1,
-        {},
-        null,
-        undefined
+        {}
     ];
 
     class MyClass {
@@ -698,15 +691,13 @@ describe("IsEnum", function() {
         Second  = <any>"second"
     }
 
-    const validValues = [MyEnum.First, MyEnum.Second];
+    const validValues = [MyEnum.First, MyEnum.Second, null, undefined];
     const validStringValues = [MyStringEnum.First, MyStringEnum.Second];
     const invalidValues = [
         true,
         false,
         0,
         {},
-        null,
-        undefined,
         "F2irst"
     ];
 
@@ -774,8 +765,8 @@ describe("IsEnum", function() {
 describe("IsDivisibleBy", function() {
 
     const constraint = 2;
-    const validValues = [ 2, 4, 100, 1000];
-    const invalidValues = ["", undefined, null];
+    const validValues = [ 2, 4, 100, 1000, null, undefined];
+    const invalidValues = [""];
 
     class MyClass {
         @IsDivisibleBy(constraint)
@@ -811,6 +802,8 @@ describe("IsPositive", function() {
     const validValues = [
         , 3
         , 5000
+        , null
+        , undefined
     ];
     const invalidValues = [
         , "-1"
@@ -868,6 +861,8 @@ describe("IsNegative", function() {
         , -3
         , -5000
         , -0.1
+        , null
+        , undefined
     ];
     const invalidValues = [
         , "-1"
@@ -922,7 +917,7 @@ describe("IsNegative", function() {
 describe("Min", function() {
 
     const constraint = 10;
-    const validValues = [10, 11, 20, 30, 40];
+    const validValues = [10, 11, 20, 30, 40, null, undefined];
     const invalidValues = [2, 3, 4, 5, 6, 7, 8, 9, -10];
 
     class MyClass {
@@ -957,7 +952,7 @@ describe("Min", function() {
 describe("Max", function() {
 
     const constraint = 10;
-    const validValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, -10, 10];
+    const validValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, -10, 10, null, undefined];
     const invalidValues = [11, 20, 30, 40];
 
     class MyClass {
@@ -996,7 +991,7 @@ describe("Max", function() {
 describe("MinDate", function() {
 
     const constraint = new Date(1995, 11, 17);
-    const validValues = [new Date()];
+    const validValues = [new Date(), null, undefined];
     const invalidValues = [new Date(1994, 11, 17)];
 
     class MyClass {
@@ -1031,7 +1026,7 @@ describe("MinDate", function() {
 describe("MaxDate", function() {
 
     const constraint = new Date(1995, 11, 17);
-    const validValues = [new Date(1994, 11, 17)];
+    const validValues = [new Date(1994, 11, 17), null, undefined];
     const invalidValues = [new Date()];
 
     class MyClass {
@@ -1073,7 +1068,9 @@ describe("IsBooleanString", function() {
         "1",
         "0",
         "true",
-        "false"
+        "false",
+        null,
+        undefined
     ];
     const invalidValues = [
         "2",
@@ -1119,6 +1116,8 @@ describe("IsNumberString", function() {
         , "0"
         , "-0"
         , "+123"
+        , null
+        , undefined
     ];
     const invalidValues = [
         "123.123"
@@ -1162,8 +1161,8 @@ describe("IsNumberString", function() {
 describe("Contains", function() {
 
     const constraint = "hello";
-    const validValues = ["hello world"];
-    const invalidValues = [null, undefined, "bye world"];
+    const validValues = ["hello world", null, undefined];
+    const invalidValues = ["bye world"];
 
     class MyClass {
         @Contains(constraint)
@@ -1197,8 +1196,8 @@ describe("Contains", function() {
 describe("NotContains", function() {
 
     const constraint = "hello";
-    const validValues = ["bye world"];
-    const invalidValues = [null, undefined, "hello world"];
+    const validValues = ["bye world", null, undefined];
+    const invalidValues = ["hello world"];
 
     class MyClass {
         @NotContains(constraint)
@@ -1232,8 +1231,8 @@ describe("NotContains", function() {
 describe("IsAlpha", function() {
 
     const constraint = "";
-    const validValues = ["hellomynameisalex"];
-    const invalidValues = [null, undefined, "hello1mynameisalex"];
+    const validValues = ["hellomynameisalex", null, undefined];
+    const invalidValues = ["hello1mynameisalex"];
 
     class MyClass {
         @IsAlpha()
@@ -1267,8 +1266,8 @@ describe("IsAlpha", function() {
 describe("IsAlphanumeric", function() {
 
     const constraint = "";
-    const validValues = ["hellomyname1salex"];
-    const invalidValues = [null, undefined, "hell*mynameisalex"];
+    const validValues = ["hellomyname1salex", null, undefined];
+    const invalidValues = ["hell*mynameisalex"];
 
     class MyClass {
         @IsAlphanumeric()
@@ -1302,8 +1301,8 @@ describe("IsAlphanumeric", function() {
 describe("IsAscii", function() {
 
     const constraint = "";
-    const validValues = ["hellomyname1salex"];
-    const invalidValues = [null, undefined, "hell*mynameisлеха"];
+    const validValues = ["hellomyname1salex", null, undefined];
+    const invalidValues = ["hell*mynameisлеха"];
 
     class MyClass {
         @IsAscii()
@@ -1337,8 +1336,8 @@ describe("IsAscii", function() {
 describe("IsBase64", function() {
 
     const constraint = "";
-    const validValues = ["aGVsbG8="];
-    const invalidValues = [null, undefined, "hell*mynameisalex"];
+    const validValues = ["aGVsbG8=", null, undefined];
+    const invalidValues = ["hell*mynameisalex"];
 
     class MyClass {
         @IsBase64()
@@ -1373,8 +1372,8 @@ describe("IsByteLength", function() {
 
     const constraint1 = 2;
     const constraint2 = 20;
-    const validValues = ["hellostring"];
-    const invalidValues = [null, undefined, "helloveryveryveryverylongstring"];
+    const validValues = ["hellostring", null, undefined];
+    const invalidValues = ["helloveryveryveryverylongstring"];
 
     class MyClass {
         @IsByteLength(constraint1, constraint2)
@@ -1413,9 +1412,11 @@ describe("IsCreditCard", function() {
         "4716461583322103",
         "4716-2210-5188-5662",
         "4929 7226 5379 7141",
-        "5398228707871527"
+        "5398228707871527",
+        null,
+        undefined
     ];
-    const invalidValues = [null, undefined, "foo", "foo", "5398228707871528"];
+    const invalidValues = ["foo", "foo", "5398228707871528"];
 
     class MyClass {
         @IsCreditCard()
@@ -1467,11 +1468,11 @@ describe("IsCurrency", function() {
         , "$10,123"
         , "10,123"
         , "-10123"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "1.234"
+        "1.234"
         , "$1.1"
         , "$ 32.50"
         , "500$"
@@ -1540,11 +1541,11 @@ describe("IsEmail", function() {
         , "\"foobar\"@example.com"
         , "\"  foo  m端ller \"@example.com"
         , "\"foo\\@bar\"@example.com"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "invalidemail@"
+        "invalidemail@"
         , "invalid.com"
         , "@invalid.com"
         , "foo@bar.com."
@@ -1592,11 +1593,11 @@ describe("IsFQDN", function() {
         , "foo--bar.com"
         , "xn--froschgrn-x9a.com"
         , "rebecca.blackfriday"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "abc"
+        "abc"
         , "256.0.0.0"
         , "_.com"
         , "*.some.com"
@@ -1641,11 +1642,11 @@ describe("IsFullWidth", function() {
         , "３ー０　ａ＠ｃｏｍ"
         , "Ｆｶﾀｶﾅﾞﾬ"
         , "Good＝Parts"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "abc"
+        "abc"
         , "abc123"
     ];
 
@@ -1684,11 +1685,11 @@ describe("IsHalfWidth", function() {
         , "l-btn_02--active"
         , "abc123い"
         , "ｶﾀｶﾅﾞﾬ￩"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "あいうえお"
+        "あいうえお"
         , "００１１"
     ];
 
@@ -1728,11 +1729,11 @@ describe("IsVariableWidth", function() {
         , "３ー０123"
         , "Ｆｶﾀｶﾅﾞﾬ"
         , "Good＝Parts"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "abc"
+        "abc"
         , "abc123"
         , "!\"#$%&()<>/+=-_? ~^|.,@`{}[]"
         , "ひらがな・カタカナ、．漢字"
@@ -1776,11 +1777,11 @@ describe("IsHexColor", function() {
         , "#CCCCCC"
         , "fff"
         , "#f00"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "#ff"
+        "#ff"
         , "fff0"
         , "#ff12FG"
     ];
@@ -1819,11 +1820,11 @@ describe("IsHexadecimal", function() {
     const validValues = [
         "deadBEEF"
         , "ff0044"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "abcdefg"
+        "abcdefg"
         , ""
         , ".."
     ];
@@ -1876,11 +1877,11 @@ describe("IsIP", function() {
         , "::"
         , "::ffff:127.0.0.1"
         , "0:0:0:0:0:ffff:127.0.0.1"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "abc"
+        "abc"
         , "256.0.0.0"
         , "0.0.0.256"
         , "26.0.0.256"
@@ -1936,9 +1937,10 @@ describe("IsISBN version 10", function() {
         , "0007269706", "0-00-726970-6", "0 00 726970 6"
         , "3423214120", "3-423-21412-0", "3 423 21412 0"
         , "340101319X", "3-401-01319-X", "3 401 01319 X"
+        , null, undefined
     ];
     const invalidValues = [
-        null, undefined, "3423214121", "3-423-21412-1", "3 423 21412 1"
+        "3423214121", "3-423-21412-1", "3 423 21412 1"
         , "978-3836221191", "9783836221191"
         , "123456789a", "foo"
     ];
@@ -1978,9 +1980,10 @@ describe("IsISBN version 13", function() {
         "9783836221191", "978-3-8362-2119-1", "978 3 8362 2119 1"
         , "9783401013190", "978-3401013190", "978 3401013190"
         , "9784873113685", "978-4-87311-368-5", "978 4 87311 368 5"
+        , null, undefined
     ];
     const invalidValues = [
-        null, undefined, "9783836221190", "978-3-8362-2119-0", "978 3 8362 2119 0"
+        "9783836221190", "978-3-8362-2119-0", "978 3 8362 2119 0"
         , "3836221195", "3-8362-2119-5", "3 8362 2119 5"
         , "01234567890ab", "foo", ""
     ];
@@ -2057,11 +2060,11 @@ describe("IsISO8601", function() {
         , "2010-02-18T16,2283"
         , "2009-05-19 143922.500"
         , "2009-05-19 1439,55"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "200905"
+        "200905"
         , "2009367"
         , "2009-"
         , "2007-04-05T24:50"
@@ -2117,8 +2120,8 @@ describe("IsISO8601", function() {
 
 describe("IsJSON", function() {
 
-    const validValues = ["{ \"key\": \"value\" }", "{}"];
-    const invalidValues = [null, undefined, "{ key: \"value\" }", "{ 'key': 'value' }", "null", "1234", "false", "\"nope\""];
+    const validValues = ["{ \"key\": \"value\" }", "{}", null, undefined];
+    const invalidValues = ["{ key: \"value\" }", "{ 'key': 'value' }", "null", "1234", "false", "\"nope\""];
 
     class MyClass {
         @IsJSON()
@@ -2156,11 +2159,11 @@ describe("IsLowercase", function() {
         , "abc123"
         , "this is lowercase."
         , "tr竪s 端ber"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "fooBar"
+        "fooBar"
         , "123A"
     ];
 
@@ -2196,12 +2199,10 @@ describe("IsLowercase", function() {
 describe("IsMongoId", function() {
 
     const validValues = [
-        "507f1f77bcf86cd799439011"
+        "507f1f77bcf86cd799439011", null, undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "507f1f77bcf86cd7994390"
+        "507f1f77bcf86cd7994390"
         , "507f1f77bcf86cd79943901z"
         , ""
         , "507f1f77bcf86cd799439011 "
@@ -2245,11 +2246,11 @@ describe("IsMultibyte", function() {
         , "1234abcDEｘｙｚ"
         , "ｶﾀｶﾅ"
         , "中文"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "abc"
+        "abc"
         , "abc123"
         , "<>@\" *."
     ];
@@ -2289,11 +2290,11 @@ describe("IsSurrogatePair", function() {
         "𠮷野𠮷"
         , "𩸽"
         , "ABC千𥧄1-2-3"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "吉野竈"
+        "吉野竈"
         , "鮪"
         , "ABC1-2-3"
     ];
@@ -2356,11 +2357,11 @@ describe("IsUrl", function() {
         , "http://foo--bar.com"
         , "http://høyfjellet.no"
         , "http://xn--j1aac5a4g.xn--j1amh"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , "xyz://foobar.com"
+        "xyz://foobar.com"
         , "invalid/"
         , "invalid.x"
         , "invalid."
@@ -2440,11 +2441,11 @@ describe("IsUUID", function() {
         "A987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "A987FBC9-4BED-4078-8F07-9141BA07C9F3"
         , "A987FBC9-4BED-5078-AF07-9141BA07C9F3"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , ""
+        ""
         , "xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "A987FBC9-4BED-3078-CF07-9141BA07C9F3xxx"
         , "A987FBC94BED3078CF079141BA07C9F3"
@@ -2486,11 +2487,11 @@ describe("IsUUID v3", function() {
 
     const validValues = [
         "A987FBC9-4BED-3078-CF07-9141BA07C9F3"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , ""
+        ""
         , "xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "934859"
         , "AAAAAAAA-1111-1111-AAAG-111111111111"
@@ -2534,11 +2535,11 @@ describe("IsUUID v4", function() {
         , "625e63f3-58f5-40b7-83a1-a72ad31acffb"
         , "57b73598-8764-4ad0-a76a-679bb6640eb1"
         , "9c858901-8a57-4791-81fe-4c455b099bc9"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , ""
+        ""
         , "xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "934859"
         , "AAAAAAAA-1111-1111-AAAG-111111111111"
@@ -2582,11 +2583,11 @@ describe("IsUUID v5", function() {
         , "987FBC97-4BED-5078-BF07-9141BA07C9F3"
         , "987FBC97-4BED-5078-8F07-9141BA07C9F3"
         , "987FBC97-4BED-5078-9F07-9141BA07C9F3"
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null
-        , undefined
-        , ""
+        ""
         , "xxxA987FBC9-4BED-3078-CF07-9141BA07C9F3"
         , "934859"
         , "AAAAAAAA-1111-1111-AAAG-111111111111"
@@ -2630,10 +2631,10 @@ describe("IsUppercase", function() {
         , "ABC123"
         , "ALL CAPS IS FUN."
         , "   ."
+        , null
+        , undefined
     ];
     const invalidValues = [
-        null,
-        undefined,
         "fooBar",
         "123abc"
     ];
@@ -2671,8 +2672,8 @@ describe("Length", function() {
 
     const constraint1 = 2;
     const constraint2 = 3;
-    const validValues = ["abc", "de"];
-    const invalidValues = [null, undefined, "", "a", "abcd"];
+    const validValues = ["abc", "de", null, undefined];
+    const invalidValues = ["", "a", "abcd"];
 
     class MyClass {
         @Length(constraint1, constraint2)
@@ -2712,8 +2713,8 @@ describe("Length", function() {
 describe("MinLength", function() {
 
     const constraint1 = 10;
-    const validValues = ["helloworld", "hello how are you"];
-    const invalidValues = [null, undefined, "hellowar", "howareyou"];
+    const validValues = ["helloworld", "hello how are you", null, undefined];
+    const invalidValues = ["hellowar", "howareyou"];
 
     class MyClass {
         @MinLength(constraint1)
@@ -2747,8 +2748,8 @@ describe("MinLength", function() {
 describe("MaxLength", function() {
 
     const constraint1 = 10;
-    const validValues = ["hellowar", "howareyou", "helloworld"];
-    const invalidValues = [null, undefined, "helloworld!", "hello how are you"];
+    const validValues = ["hellowar", "howareyou", "helloworld", null, undefined];
+    const invalidValues = ["helloworld!", "hello how are you"];
 
     class MyClass {
         @MaxLength(constraint1)
@@ -2782,8 +2783,8 @@ describe("MaxLength", function() {
 describe("Matches", function() {
 
     const constraint = /abc/;
-    const validValues = ["abc", "abcdef", "123abc"];
-    const invalidValues = [null, undefined, "acb", "Abc"];
+    const validValues = ["abc", "abcdef", "123abc", null, undefined];
+    const invalidValues = ["acb", "Abc"];
 
     class MyClass {
         @Matches(constraint)
@@ -2822,7 +2823,7 @@ describe("IsMilitaryTime", function() {
     }
 
     it("should not fail for a valid time in the format HH:MM", function(done) {
-        const validValues = ["10:22", "12:03", "16:32", "23:59", "00:00"];
+        const validValues = ["10:22", "12:03", "16:32", "23:59", "00:00", null, undefined];
         checkValidValues(new MyClass(), validValues, done);
     });
 
@@ -2832,7 +2833,7 @@ describe("IsMilitaryTime", function() {
     });
 
     it("should fail for invalid values", function(done) {
-        const invalidValues = [undefined, null, "23:00 and invalid counterpart"];
+        const invalidValues = ["23:00 and invalid counterpart"];
         checkInvalidValues(new MyClass(), invalidValues, done);
     });
 
@@ -2845,8 +2846,13 @@ describe("IsMilitaryTime", function() {
 describe("ArrayContains", function() {
 
     const constraint = ["superman"];
-    const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
-    const invalidValues = [null, undefined, ["world", "hello"]];
+    const validValues = [
+        ["world", "hello", "superman"],
+        ["world", "superman", "hello"],
+        ["superman", "world", "hello"],
+        null,
+        undefined];
+    const invalidValues = [["world", "hello"]];
 
     class MyClass {
         @ArrayContains(constraint)
@@ -2880,8 +2886,8 @@ describe("ArrayContains", function() {
 describe("ArrayNotContains", function() {
 
     const constraint = ["superman"];
-    const validValues = [["world", "hello"]];
-    const invalidValues = [null, undefined, ["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
+    const validValues = [["world", "hello"], null, undefined];
+    const invalidValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
 
     class MyClass {
         @ArrayNotContains(constraint)
@@ -2914,8 +2920,19 @@ describe("ArrayNotContains", function() {
 
 describe("ArrayNotEmpty", function() {
 
-    const validValues = [[0], [""], [null], [undefined], [false], ["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
-    const invalidValues: any[] = [null, undefined, []];
+    const validValues = [
+        [0]
+        , [""]
+        , [null]
+        , [undefined]
+        , [false]
+        , ["world", "hello", "superman"]
+        , ["world", "superman", "hello"]
+        , ["superman", "world", "hello"]
+        , null
+        , undefined
+    ];
+    const invalidValues: any[] = [[]];
 
     class MyClass {
         @ArrayNotEmpty()
@@ -2949,8 +2966,8 @@ describe("ArrayNotEmpty", function() {
 describe("ArrayMinSize", function() {
 
     const constraint = 2;
-    const validValues = [["world", "hello"]];
-    const invalidValues = [null, undefined, ["hi"]];
+    const validValues = [["world", "hello"], null, undefined];
+    const invalidValues = [[], ["hi"]];
 
     class MyClass {
         @ArrayMinSize(constraint)
@@ -2984,8 +3001,8 @@ describe("ArrayMinSize", function() {
 describe("ArrayMaxSize", function() {
 
     const constraint = 2;
-    const validValues = [["world", "hello"]];
-    const invalidValues = [null, undefined, ["hi", "hello", "javascript"]];
+    const validValues = [["world", "hello"], null, undefined];
+    const invalidValues = [["hi", "hello", "javascript"]];
 
     class MyClass {
         @ArrayMaxSize(constraint)
@@ -3018,8 +3035,13 @@ describe("ArrayMaxSize", function() {
 
 describe("ArrayUnique", function () {
 
-    const validValues = [["world", "hello", "superman"], ["world", "superman", "hello"], ["superman", "world", "hello"]];
-    const invalidValues: any[] = [null, undefined, ["world", "hello", "hello"], ["world", "hello", "world"], ["1", "1", "1"]];
+    const validValues = [
+        ["world", "hello", "superman"]
+        , ["world", "superman", "hello"]
+        , ["superman", "world", "hello"]
+        , null
+        , undefined];
+    const invalidValues: any[] = [["world", "hello", "hello"], ["world", "hello", "world"], ["1", "1", "1"]];
 
     class MyClass {
         @ArrayUnique()
@@ -3060,8 +3082,8 @@ describe("isInstance", function () {
         someProperty: MySubClass;
     }
 
-    const validValues = [new MySubClass()];
-    const invalidValues = [null, undefined, 15, "something", new WrongSubClass(), () => <any>null];
+    const validValues = [new MySubClass(), null, undefined];
+    const invalidValues = [15, "something", new WrongSubClass(), () => <any>null];
 
     it("should not fail if validator.validate said that its valid", function(done) {
         checkValidValues(new MyClass(), validValues, done);
