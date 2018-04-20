@@ -185,21 +185,30 @@ export class ValidationExecutor {
                                value: any,
                                metadatas: ValidationMetadata[],
                                errorMap: { [key: string]: string }) {
-        return metadatas
-            .filter(metadata => {
-                if (metadata.each) {
-                    if (value instanceof Array) {
-                        return !value.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
-                    }
 
-                } else {
-                    return !this.validator.validateValueByMetadata(value, metadata);
+        // metadatas are saved in order of bottom-to-top
+        // but: we want the first validation error from the top
+        const reverse = metadatas.reverse();
+
+        for (let i = 0; i < metadatas.length; i++) {
+            const metadata = reverse[i];
+
+            let valid = true;
+            if (metadata.each) {
+                if (value instanceof Array) {
+                    valid = value.every((subValue: any) => this.validator.validateValueByMetadata(subValue, metadata));
                 }
-            })
-            .forEach(metadata => {
+                // FIXME: else?
+            } else {
+                valid = this.validator.validateValueByMetadata(value, metadata);
+            }
+
+            if (!valid) {
                 const [key, message] = this.createValidationError(object, value, metadata);
                 errorMap[key] = message;
-            });
+                return;
+            }
+        }
     }
 
     private customValidations(object: Object,

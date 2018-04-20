@@ -1,7 +1,9 @@
 import "es6-shim";
-import { IsNotEmpty, IsString, IsUrl, IsOptional, ValidateNested, MinLength } from "../../src/decorator/decorators";
+import { IsString, IsUrl, IsOptional, ValidateNested, MinLength } from "../../src/decorator/decorators";
 import { Validator } from "../../src/validation/Validator";
-import { expect } from "chai";
+import { should } from "chai";
+
+should(); // make IDE recognise should extensions when debugging tests
 
 // -------------------------------------------------------------------------
 // Setup
@@ -58,7 +60,7 @@ describe("ValidationError", function  () {
     const validationErrors = await validator.validate(new RootClass());
 
     validationErrors[0].toString().should.be.equal("An instance of RootClass has failed the validation:\n" +
-      " - property title has failed the following constraints: minLength, isString \n");
+      " - property title has failed the following constraints: isString \n");
 
     validationErrors[1].toString().should.be.equal("An instance of RootClass has failed the validation:\n" +
       " - property nestedObj.name has failed the following constraints: isString \n" +
