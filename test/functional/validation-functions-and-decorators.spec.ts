@@ -1,77 +1,77 @@
 import "es6-shim";
 import {expect} from "chai";
-import {
-    IsBooleanString,
-    IsPositive,
-    IsNegative,
-    Contains,
-    Equals,
-    MinDate,
-    MaxDate,
-    IsAlpha,
-    IsAlphanumeric,
-    IsAscii,
-    IsBase64,
-    IsBoolean,
-    IsByteLength,
-    IsCreditCard,
-    IsCurrency,
-    IsDate,
-    IsDivisibleBy,
-    IsEmail,
-    IsEnum,
-    IsFQDN,
-    IsFullWidth,
-    IsHalfWidth,
-    IsVariableWidth,
-    IsHexColor,
-    IsHexadecimal,
-    IsIP,
-    IsISBN,
-    IsISO8601,
-    IsIn,
-    IsInt,
-    IsJSON,
-    Length,
-    IsLowercase,
-    IsMongoId,
-    IsMultibyte,
-    IsNumberString,
-    IsSurrogatePair,
-    IsUrl,
-    IsUUID,
-    IsUppercase,
-    Matches,
-    MinLength,
-    MaxLength,
-    Min,
-    Max,
-    IsNotEmpty,
-    IsMilitaryTime,
-    ArrayNotEmpty,
-    ArrayMinSize,
-    ArrayMaxSize,
-    NotEquals,
-    IsEmpty,
-    IsDefined,
-    IsNotIn,
-    IsNumber,
-    IsString,
-    NotContains,
-    ArrayContains,
-    ArrayNotContains,
-    ArrayUnique,
-    IsArray,
-    IsDateString,
-    IsInstance,
-    IsPhoneNumber
-} from "../../src/decorator/decorators";
 import {Validator} from "../../src/validation/Validator";
 import {ValidatorOptions} from "../../src/validation/ValidatorOptions";
 
 import {should, use } from "chai";
 
 import * as chaiAsPromised from "chai-as-promised";
+import {equals, Equals} from "../../src/decorator/common/Equals";
+import {notEquals, NotEquals} from "../../src/decorator/common/NotEquals";
+import {IsEmpty, isEmpty} from "../../src/decorator/common/IsEmpty";
+import {isNotEmpty, IsNotEmpty} from "../../src/decorator/common/IsNotEmpty";
+import {IsIn, isIn} from "../../src/decorator/common/IsIn";
+import {IsNotIn, isNotIn} from "../../src/decorator/common/IsNotIn";
+import {IsPhoneNumber} from "../../src/decorator/string/IsPhoneNumber";
+import {IsBoolean, isBoolean} from "../../src/decorator/typechecker/IsBoolean";
+import {IsDate, isDate} from "../../src/decorator/typechecker/IsDate";
+import {IsNumber, isNumber} from "../../src/decorator/typechecker/IsNumber";
+import {IsInt, isInt} from "../../src/decorator/typechecker/IsInt";
+import {IsString, isString} from "../../src/decorator/typechecker/IsString";
+import {IsDateString, isDateString} from "../../src/decorator/string-as-type/IsDateString";
+import {IsArray, isArray} from "../../src/decorator/typechecker/IsArray";
+import {isEnum, IsEnum} from "../../src/decorator/typechecker/IsEnum";
+import {IsDivisibleBy, isDivisibleBy} from "../../src/decorator/number/IsDivisibleBy";
+import {IsPositive, isPositive} from "../../src/decorator/number/IsPositive";
+import {isNegative, IsNegative} from "../../src/decorator/number/IsNegative";
+import {Min, min} from "../../src/decorator/number/Min";
+import {Max, max} from "../../src/decorator/number/Max";
+import {minDate, MinDate} from "../../src/decorator/date/MinDate";
+import {maxDate, MaxDate} from "../../src/decorator/date/MaxDate";
+import {isBooleanString, IsBooleanString} from "../../src/decorator/string-as-type/IsBooleanString";
+import {IsNumberString, isNumberString} from "../../src/decorator/string-as-type/IsNumberString";
+import {Contains, contains} from "../../src/decorator/string/Contains";
+import {NotContains, notContains} from "../../src/decorator/string/NotContains";
+import {IsAlpha, isAlpha} from "../../src/decorator/string/IsAlpha";
+import {isAlphanumeric, IsAlphanumeric} from "../../src/decorator/string/IsAlphanumeric";
+import {IsAscii, isAscii} from "../../src/decorator/string/IsAscii";
+import {IsBase64, isBase64} from "../../src/decorator/string/IsBase64";
+import {IsByteLength, isByteLength} from "../../src/decorator/string/IsByteLength";
+import {IsCreditCard, isCreditCard} from "../../src/decorator/string/IsCreditCard";
+import {IsCurrency, isCurrency} from "../../src/decorator/string/IsCurrency";
+import {IsEmail, isEmail} from "../../src/decorator/string/IsEmail";
+import {isFQDN, IsFQDN} from "../../src/decorator/string/IsFQDN";
+import {isFullWidth, IsFullWidth} from "../../src/decorator/string/IsFullWidth";
+import {isHalfWidth, IsHalfWidth} from "../../src/decorator/string/IsHalfWidth";
+import {IsVariableWidth, isVariableWidth} from "../../src/decorator/string/IsVariableWidth";
+import {isHexColor, IsHexColor} from "../../src/decorator/string/IsHexColor";
+import {isHexadecimal, IsHexadecimal} from "../../src/decorator/string/IsHexadecimal";
+import {isIP, IsIP} from "../../src/decorator/string/IsIP";
+import {isISBN, IsISBN} from "../../src/decorator/string/IsISBN";
+import {isISIN, IsISIN} from "../../src/decorator/string/IsISIN";
+import {IsISO8601, isISO8601} from "../../src/decorator/string/IsISO8601";
+import {IsJSON, isJSON} from "../../src/decorator/string/IsJSON";
+import {isLowercase, IsLowercase} from "../../src/decorator/string/IsLowercase";
+import {IsMobilePhone} from "../../src/decorator/string/IsMobilePhone";
+import {isMongoId, IsMongoId} from "../../src/decorator/string/IsMongoId";
+import {IsMultibyte, isMultibyte} from "../../src/decorator/string/IsMultibyte";
+import {isSurrogatePair, IsSurrogatePair} from "../../src/decorator/string/IsSurrogatePair";
+import {IsUrl, isURL} from "../../src/decorator/string/IsUrl";
+import {IsUUID, isUUID} from "../../src/decorator/string/IsUUID";
+import {IsUppercase, isUppercase} from "../../src/decorator/string/IsUppercase";
+import {length, Length} from "../../src/decorator/string/Length";
+import {MinLength, minLength} from "../../src/decorator/string/MinLength";
+import {maxLength, MaxLength} from "../../src/decorator/string/MaxLength";
+import {Matches, matches} from "../../src/decorator/string/Matches";
+import {IsMilitaryTime} from "../../src/decorator/string/IsMilitaryTime";
+import {ArrayContains, arrayContains} from "../../src/decorator/array/ArrayContains";
+import {ArrayNotContains, arrayNotContains} from "../../src/decorator/array/ArrayNotContains";
+import {arrayNotEmpty, ArrayNotEmpty} from "../../src/decorator/array/ArrayNotEmpty";
+import {arrayMinSize, ArrayMinSize} from "../../src/decorator/array/ArrayMinSize";
+import {ArrayMaxSize, arrayMaxSize} from "../../src/decorator/array/ArrayMaxSize";
+import {ArrayUnique, arrayUnique} from "../../src/decorator/array/ArrayUnique";
+import {IsInstance, isInstance} from "../../src/decorator/typechecker/IsInstance";
+import {isDefined, IsDefined} from "../../src/decorator/system/IsDefined";
 
 should();
 use(chaiAsPromised);
@@ -97,7 +97,7 @@ export function checkInvalidValues(object: { someProperty: any }, values: any[],
         object.someProperty = value;
         return validator
             .validate(object, validatorOptions)
-            .then(errors => errors.length.should.be.equal(1));
+            .then(errors => errors.length.should.be.equal(1, `no errors (unexpectedly) on value: ${value}`));
     });
     Promise.all(promises).then(() => done(), err => done(err));
 }
@@ -162,11 +162,11 @@ describe("IsDefined", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isDefined(value).should.be.true);
+        validValues.forEach(value => isDefined(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isDefined(value).should.be.false);
+        invalidValues.forEach(value => isDefined(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -197,11 +197,11 @@ describe("Equals", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.equals(value, constraint).should.be.true);
+        validValues.forEach(value => equals(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.equals(value, constraint).should.be.false);
+        invalidValues.forEach(value => equals(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -232,11 +232,11 @@ describe("NotEquals", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.notEquals(value, constraint).should.be.true);
+        validValues.forEach(value => notEquals(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.notEquals(value, constraint).should.be.false);
+        invalidValues.forEach(value => notEquals(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -266,11 +266,11 @@ describe("IsEmpty", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isEmpty(value).should.be.true);
+        validValues.forEach(value => isEmpty(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isEmpty(value).should.be.false);
+        invalidValues.forEach(value => isEmpty(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -300,11 +300,11 @@ describe("IsNotEmpty", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isNotEmpty(value).should.be.true);
+        validValues.forEach(value => isNotEmpty(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isNotEmpty(value).should.be.false);
+        invalidValues.forEach(value => isNotEmpty(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -335,11 +335,11 @@ describe("IsIn", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isIn(value, constraint).should.be.true);
+        validValues.forEach(value => isIn(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isIn(value, constraint).should.be.false);
+        invalidValues.forEach(value => isIn(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -370,11 +370,11 @@ describe("IsNotIn", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isNotIn(value, constraint).should.be.true);
+        validValues.forEach(value => isNotIn(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isNotIn(value, constraint).should.be.false);
+        invalidValues.forEach(value => isNotIn(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -408,11 +408,11 @@ describe("IsBoolean", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isBoolean(value).should.be.true);
+        validValues.forEach(value => isBoolean(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isBoolean(value).should.be.false);
+        invalidValues.forEach(value => isBoolean(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -442,11 +442,11 @@ describe("IsDate", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isDate(value).should.be.true);
+        validValues.forEach(value => isDate(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isDate(value).should.be.false);
+        invalidValues.forEach(value => isDate(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -502,11 +502,11 @@ describe("IsNumber", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isNumber(value).should.be.true);
+        validValues.forEach(value => isNumber(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isNumber(value).should.be.false);
+        invalidValues.forEach(value => isNumber(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -546,11 +546,11 @@ describe("IsInt", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isInt(value).should.be.true);
+        validValues.forEach(value => isInt(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isInt(value as any).should.be.false);
+        invalidValues.forEach(value => isInt(value as any).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -587,11 +587,11 @@ describe("IsString", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isString(value).should.be.true);
+        validValues.forEach(value => isString(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isString(value as any).should.be.false);
+        invalidValues.forEach(value => isString(value as any).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -619,7 +619,9 @@ describe("IsDateString", function() {
         2,
         null,
         undefined,
-        "text"
+        "text",
+        "text2018-01-04T08:15:30+04",
+        "2018-01-04T08:15:30Ztext",
     ];
 
     class MyClass {
@@ -636,11 +638,11 @@ describe("IsDateString", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => expect(validator.isDateString(value)).be.true);
+        validValues.forEach(value => expect(isDateString(value)).be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => expect(validator.isDateString(value as any)).be.false);
+        invalidValues.forEach(value => expect(isDateString(value as any)).be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -678,11 +680,11 @@ describe("IsArray", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isArray(value).should.be.true);
+        validValues.forEach(value => isArray(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isArray(value as any).should.be.false);
+        invalidValues.forEach(value => isArray(value as any).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -745,19 +747,19 @@ describe("IsEnum", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isEnum(value, MyEnum).should.be.true);
+        validValues.forEach(value => isEnum(value, MyEnum).should.be.true);
     });
 
     it("should not fail if method in validator said that its valid (string enum)", function() {
-        validStringValues.forEach(value => validator.isEnum(value, MyStringEnum).should.be.true);
+        validStringValues.forEach(value => isEnum(value, MyStringEnum).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isEnum(value, MyEnum).should.be.false);
+        invalidValues.forEach(value => isEnum(value, MyEnum).should.be.false);
     });
 
     it("should fail if method in validator said that its invalid (string enum)", function() {
-        invalidValues.forEach(value => validator.isEnum(value, MyStringEnum).should.be.false);
+        invalidValues.forEach(value => isEnum(value, MyStringEnum).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -799,11 +801,11 @@ describe("IsDivisibleBy", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isDivisibleBy(value, constraint).should.be.true);
+        validValues.forEach(value => isDivisibleBy(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isDivisibleBy(value as any, constraint).should.be.false);
+        invalidValues.forEach(value => isDivisibleBy(value as any, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -855,11 +857,11 @@ describe("IsPositive", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isPositive(value).should.be.true);
+        validValues.forEach(value => isPositive(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isPositive(value as any).should.be.false);
+        invalidValues.forEach(value => isPositive(value as any).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -912,11 +914,11 @@ describe("IsNegative", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isNegative(value).should.be.true);
+        validValues.forEach(value => isNegative(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isNegative(value as any).should.be.false);
+        invalidValues.forEach(value => isNegative(value as any).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -947,11 +949,11 @@ describe("Min", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.min(value, constraint).should.be.true);
+        validValues.forEach(value => min(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.min(value, constraint).should.be.false);
+        invalidValues.forEach(value => min(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -982,11 +984,11 @@ describe("Max", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.max(value, constraint).should.be.true);
+        validValues.forEach(value => max(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.max(value, constraint).should.be.false);
+        invalidValues.forEach(value => max(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1021,11 +1023,11 @@ describe("MinDate", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.minDate(value, constraint).should.be.true);
+        validValues.forEach(value => minDate(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.minDate(value, constraint).should.be.false);
+        invalidValues.forEach(value => minDate(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1056,11 +1058,11 @@ describe("MaxDate", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.maxDate(value, constraint).should.be.true);
+        validValues.forEach(value => maxDate(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.maxDate(value, constraint).should.be.false);
+        invalidValues.forEach(value => maxDate(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1103,11 +1105,11 @@ describe("IsBooleanString", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isBooleanString(value).should.be.true);
+        validValues.forEach(value => isBooleanString(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isBooleanString(value).should.be.false);
+        invalidValues.forEach(value => isBooleanString(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1148,11 +1150,11 @@ describe("IsNumberString", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isNumberString(value).should.be.true);
+        validValues.forEach(value => isNumberString(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isNumberString(value).should.be.false);
+        invalidValues.forEach(value => isNumberString(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1187,11 +1189,11 @@ describe("Contains", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.contains(value, constraint).should.be.true);
+        validValues.forEach(value => contains(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.contains(value, constraint).should.be.false);
+        invalidValues.forEach(value => contains(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1222,11 +1224,11 @@ describe("NotContains", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.notContains(value, constraint).should.be.true);
+        validValues.forEach(value => notContains(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.notContains(value, constraint).should.be.false);
+        invalidValues.forEach(value => notContains(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1257,11 +1259,11 @@ describe("IsAlpha", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isAlpha(value).should.be.true);
+        validValues.forEach(value => isAlpha(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isAlpha(value).should.be.false);
+        invalidValues.forEach(value => isAlpha(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1292,11 +1294,11 @@ describe("IsAlphanumeric", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isAlphanumeric(value).should.be.true);
+        validValues.forEach(value => isAlphanumeric(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isAlphanumeric(value).should.be.false);
+        invalidValues.forEach(value => isAlphanumeric(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1327,11 +1329,11 @@ describe("IsAscii", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isAscii(value).should.be.true);
+        validValues.forEach(value => isAscii(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isAscii(value).should.be.false);
+        invalidValues.forEach(value => isAscii(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1362,11 +1364,11 @@ describe("IsBase64", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isBase64(value).should.be.true);
+        validValues.forEach(value => isBase64(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isBase64(value).should.be.false);
+        invalidValues.forEach(value => isBase64(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1398,11 +1400,11 @@ describe("IsByteLength", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isByteLength(value, constraint1, constraint2).should.be.true);
+        validValues.forEach(value => isByteLength(value, constraint1, constraint2).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isByteLength(value, constraint1, constraint2).should.be.false);
+        invalidValues.forEach(value => isByteLength(value, constraint1, constraint2).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1439,11 +1441,11 @@ describe("IsCreditCard", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isCreditCard(value).should.be.true);
+        validValues.forEach(value => isCreditCard(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isCreditCard(value).should.be.false);
+        invalidValues.forEach(value => isCreditCard(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1517,11 +1519,11 @@ describe("IsCurrency", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isCurrency(value).should.be.true);
+        validValues.forEach(value => isCurrency(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isCurrency(value).should.be.false);
+        invalidValues.forEach(value => isCurrency(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1577,13 +1579,13 @@ describe("IsEmail", function() {
 
     it("should not fail if method in validator said that its valid", function() {
         validValues.forEach(value => {
-            console.log(value, validator.isEmail(value));
-            return validator.isEmail(value).should.be.true;
+            console.log(value, isEmail(value));
+            return isEmail(value).should.be.true;
         });
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isEmail(value).should.be.false);
+        invalidValues.forEach(value => isEmail(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1630,11 +1632,11 @@ describe("IsFQDN", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isFQDN(value).should.be.true);
+        validValues.forEach(value => isFQDN(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isFQDN(value).should.be.false);
+        invalidValues.forEach(value => isFQDN(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1674,11 +1676,11 @@ describe("IsFullWidth", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isFullWidth(value).should.be.true);
+        validValues.forEach(value => isFullWidth(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isFullWidth(value).should.be.false);
+        invalidValues.forEach(value => isFullWidth(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1717,11 +1719,11 @@ describe("IsHalfWidth", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isHalfWidth(value).should.be.true);
+        validValues.forEach(value => isHalfWidth(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isHalfWidth(value).should.be.false);
+        invalidValues.forEach(value => isHalfWidth(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1765,11 +1767,11 @@ describe("IsVariableWidth", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isVariableWidth(value).should.be.true);
+        validValues.forEach(value => isVariableWidth(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isVariableWidth(value).should.be.false);
+        invalidValues.forEach(value => isVariableWidth(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1810,11 +1812,11 @@ describe("IsHexColor", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isHexColor(value).should.be.true);
+        validValues.forEach(value => isHexColor(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isHexColor(value).should.be.false);
+        invalidValues.forEach(value => isHexColor(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1853,11 +1855,11 @@ describe("IsHexadecimal", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isHexadecimal(value).should.be.true);
+        validValues.forEach(value => isHexadecimal(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isHexadecimal(value).should.be.false);
+        invalidValues.forEach(value => isHexadecimal(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1924,11 +1926,11 @@ describe("IsIP", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isIP(value).should.be.true);
+        validValues.forEach(value => isIP(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isIP(value).should.be.false);
+        invalidValues.forEach(value => isIP(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -1937,6 +1939,12 @@ describe("IsIP", function() {
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
+    it("should heed the version param", function() {
+        isIP("123.123.123.123", "4").should.be.true;
+        isIP("123.123.123.123", "6").should.be.false;
+        isIP("::1", "4").should.be.false;
+        isIP("::1", "6").should.be.true;
+    });
 });
 
 describe("IsISBN version 10", function() {
@@ -1968,17 +1976,22 @@ describe("IsISBN version 10", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isISBN(value, "10").should.be.true);
+        validValues.forEach(value => isISBN(value, "10").should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isISBN(value, "10").should.be.false);
+        invalidValues.forEach(value => isISBN(value, "10").should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
         const validationType = "isIsbn";
         const message = "someProperty must be an ISBN";
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+    it("should heed the version param", function() {
+        isISBN("99921-58-10-7", "10").should.be.true;
+        isISBN("978-3-16-148410-0", "10").should.be.false;
     });
 
 });
@@ -2010,11 +2023,11 @@ describe("IsISBN version 13", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isISBN(value, "13").should.be.true);
+        validValues.forEach(value => isISBN(value, "13").should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isISBN(value, "13").should.be.false);
+        invalidValues.forEach(value => isISBN(value, "13").should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2023,7 +2036,55 @@ describe("IsISBN version 13", function() {
         checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
     });
 
+    it("should heed the version param", function() {
+        isISBN("978-3-16-148410-0", "13").should.be.true;
+        isISBN("99921-58-10-7", "13").should.be.false;
+    });
+
 });
+
+describe("IsISIN", function() {
+
+    const validValues = [
+        "US5949181045", "US38259P5089", "US0378331005"
+        , "BMG491BT1088", "IE00B4BNMY34", "US0231351067"
+        , "US64110L1061", "US30303M1027", "CH0031240127"
+    ];
+    const invalidValues = [
+        null, undefined, "9783836221190", "978-3-8362-2119-0", "978 3 8362 2119 0"
+        , "3836221195", "3-8362-2119-5", "3 8362 2119 5"
+        , "01234567890ab", "foo", ""
+    ];
+
+    class MyClass {
+        @IsISIN()
+        someProperty: string;
+    }
+
+    it("should not fail if validator.validate said that its valid", function(done) {
+        checkValidValues(new MyClass(), validValues, done);
+    });
+
+    it("should fail if validator.validate said that its invalid", function(done) {
+        checkInvalidValues(new MyClass(), invalidValues, done);
+    });
+
+    it("should not fail if method in validator said that its valid", function() {
+        validValues.forEach(value => isISIN(value).should.be.true);
+    });
+
+    it("should fail if method in validator said that its invalid", function() {
+        invalidValues.forEach(value => isISIN(value).should.be.false);
+    });
+
+    it("should return error object with proper data", function(done) {
+        const validationType = "isIsin";
+        const message = "someProperty must be an ISIN (stock/security identifier)";
+        checkReturnedError(new MyClass(), invalidValues, validationType, message, done);
+    });
+
+});
+
 
 describe("IsISO8601", function() {
 
@@ -2111,11 +2172,11 @@ describe("IsISO8601", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isISO8601(value).should.be.true);
+        validValues.forEach(value => isISO8601(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isISO8601(value).should.be.false);
+        invalidValues.forEach(value => isISO8601(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2145,11 +2206,11 @@ describe("IsJSON", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isJSON(value).should.be.true);
+        validValues.forEach(value => isJSON(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isJSON(value).should.be.false);
+        invalidValues.forEach(value => isJSON(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2189,11 +2250,11 @@ describe("IsLowercase", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isLowercase(value).should.be.true);
+        validValues.forEach(value => isLowercase(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isLowercase(value).should.be.false);
+        invalidValues.forEach(value => isLowercase(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2232,11 +2293,11 @@ describe("IsMongoId", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isMongoId(value).should.be.true);
+        validValues.forEach(value => isMongoId(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isMongoId(value).should.be.false);
+        invalidValues.forEach(value => isMongoId(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2279,11 +2340,11 @@ describe("IsMultibyte", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isMultibyte(value).should.be.true);
+        validValues.forEach(value => isMultibyte(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isMultibyte(value).should.be.false);
+        invalidValues.forEach(value => isMultibyte(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2323,11 +2384,11 @@ describe("IsSurrogatePair", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isSurrogatePair(value).should.be.true);
+        validValues.forEach(value => isSurrogatePair(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isSurrogatePair(value).should.be.false);
+        invalidValues.forEach(value => isSurrogatePair(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2422,19 +2483,19 @@ describe("IsUrl", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isURL(value).should.be.true);
+        validValues.forEach(value => isURL(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isURL(value).should.be.false);
+        invalidValues.forEach(value => isURL(value).should.be.false);
     });
 
     it("should fail on localhost without require_tld option", function () {
-        validator.isURL("http://localhost:3000/").should.be.false;
+        isURL("http://localhost:3000/").should.be.false;
     });
 
     it("should pass on localhost with require_tld option", function () {
-        validator.isURL("http://localhost:3000/", { require_tld: false }).should.be.true;
+        isURL("http://localhost:3000/", { require_tld: false }).should.be.true;
     });
 
     it("should return error object with proper data", function(done) {
@@ -2478,11 +2539,11 @@ describe("IsUUID", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUUID(value).should.be.true);
+        validValues.forEach(value => isUUID(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUUID(value).should.be.false);
+        invalidValues.forEach(value => isUUID(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2523,11 +2584,11 @@ describe("IsUUID v3", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUUID(value, "3").should.be.true);
+        validValues.forEach(value => isUUID(value, "3").should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUUID(value, "3").should.be.false);
+        invalidValues.forEach(value => isUUID(value, "3").should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2571,11 +2632,11 @@ describe("IsUUID v4", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUUID(value, "4").should.be.true);
+        validValues.forEach(value => isUUID(value, "4").should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUUID(value, "4").should.be.false);
+        invalidValues.forEach(value => isUUID(value, "4").should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2619,11 +2680,11 @@ describe("IsUUID v5", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUUID(value, "5").should.be.true);
+        validValues.forEach(value => isUUID(value, "5").should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUUID(value, "5").should.be.false);
+        invalidValues.forEach(value => isUUID(value, "5").should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2663,11 +2724,11 @@ describe("IsUppercase", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isUppercase(value).should.be.true);
+        validValues.forEach(value => isUppercase(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isUppercase(value).should.be.false);
+        invalidValues.forEach(value => isUppercase(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2699,11 +2760,11 @@ describe("Length", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.length(value, constraint1, constraint2).should.be.true);
+        validValues.forEach(value => length(value, constraint1, constraint2).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.length(value, constraint1, constraint2).should.be.false);
+        invalidValues.forEach(value => length(value, constraint1, constraint2).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2740,11 +2801,11 @@ describe("MinLength", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.minLength(value, constraint1).should.be.true);
+        validValues.forEach(value => minLength(value, constraint1).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.minLength(value, constraint1).should.be.false);
+        invalidValues.forEach(value => minLength(value, constraint1).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2775,11 +2836,11 @@ describe("MaxLength", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.maxLength(value, constraint1).should.be.true);
+        validValues.forEach(value => maxLength(value, constraint1).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.maxLength(value, constraint1).should.be.false);
+        invalidValues.forEach(value => maxLength(value, constraint1).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2810,11 +2871,11 @@ describe("Matches", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.matches(value, constraint).should.be.true);
+        validValues.forEach(value => matches(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.matches(value, constraint).should.be.false);
+        invalidValues.forEach(value => matches(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2848,6 +2909,57 @@ describe("IsMilitaryTime", function() {
     });
 
 });
+
+describe("isMobilePhone", function() {
+    describe("with region", function() {
+        const validValues = [
+            "01517551023", "0151 755 10 23",
+            "+491517551023", "+49 151 755 10 23",
+            "+49 (0) 1517551023", "+49 151 755 10 23",
+        ];
+        const invalidValues = [undefined, null, "asdf", "1"];
+
+        class MyClass {
+            @IsMobilePhone("de-DE")
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function(done) {
+            checkValidValues(new MyClass(), validValues, done);
+        });
+
+        it("should fail if validator.validate said that its invalid", function(done) {
+            checkInvalidValues(new MyClass(), invalidValues, done);
+        });
+    });
+
+    describe("no region", function() {
+        const validValues = [
+            "+491517551023", "+49 151 755 10 23",
+            "+49 (0) 1517551023", "+49 151 755 10 23"
+        ];
+        const invalidValues = [
+            // most numbers are valid in any of the supported locales..
+            // so choosing failing fixtures is hard.
+            "12345678901234567894654321",
+            undefined, null, "asdf", "1"
+        ];
+
+        class MyClass {
+            @IsMobilePhone("any")
+            someProperty: string;
+        }
+
+        it("should not fail if validator.validate said that its valid", function(done) {
+            checkValidValues(new MyClass(), validValues, done);
+        });
+
+        it("should fail if validator.validate said that its invalid", function(done) {
+            checkInvalidValues(new MyClass(), invalidValues, done);
+        });
+    });
+});
+
 
 describe("isPhoneNumber", function() {
     describe("with region", function() {
@@ -2924,11 +3036,11 @@ describe("ArrayContains", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayContains(value, constraint).should.be.true);
+        validValues.forEach(value => arrayContains(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayContains(value, constraint).should.be.false);
+        invalidValues.forEach(value => arrayContains(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2959,11 +3071,11 @@ describe("ArrayNotContains", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayNotContains(value, constraint).should.be.true);
+        validValues.forEach(value => arrayNotContains(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayNotContains(value, constraint).should.be.false);
+        invalidValues.forEach(value => arrayNotContains(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -2993,11 +3105,11 @@ describe("ArrayNotEmpty", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayNotEmpty(value).should.be.true);
+        validValues.forEach(value => arrayNotEmpty(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayNotEmpty(value).should.be.false);
+        invalidValues.forEach(value => arrayNotEmpty(value).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3028,11 +3140,11 @@ describe("ArrayMinSize", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayMinSize(value, constraint).should.be.true);
+        validValues.forEach(value => arrayMinSize(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayMinSize(value, constraint).should.be.false);
+        invalidValues.forEach(value => arrayMinSize(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3063,11 +3175,11 @@ describe("ArrayMaxSize", function() {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.arrayMaxSize(value, constraint).should.be.true);
+        validValues.forEach(value => arrayMaxSize(value, constraint).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.arrayMaxSize(value, constraint).should.be.false);
+        invalidValues.forEach(value => arrayMaxSize(value, constraint).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {
@@ -3097,11 +3209,11 @@ describe("ArrayUnique", function () {
     });
 
     it("should not fail if method in validator said that its valid", function () {
-        validValues.forEach(value => validator.arrayUnique(value).should.be.true);
+        validValues.forEach(value => arrayUnique(value).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function () {
-        invalidValues.forEach(value => validator.arrayUnique(value).should.be.false);
+        invalidValues.forEach(value => arrayUnique(value).should.be.false);
     });
 
     it("should return error object with proper data", function (done) {
@@ -3134,11 +3246,11 @@ describe("isInstance", function () {
     });
 
     it("should not fail if method in validator said that its valid", function() {
-        validValues.forEach(value => validator.isInstance(value, MySubClass).should.be.true);
+        validValues.forEach(value => isInstance(value, MySubClass).should.be.true);
     });
 
     it("should fail if method in validator said that its invalid", function() {
-        invalidValues.forEach(value => validator.isInstance(value, MySubClass).should.be.false);
+        invalidValues.forEach(value => isInstance(value, MySubClass).should.be.false);
     });
 
     it("should return error object with proper data", function(done) {

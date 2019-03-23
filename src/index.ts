@@ -9,19 +9,20 @@ import {getFromContainer} from "./container";
 // Export everything api users needs
 // -------------------------------------------------------------------------
 
-export * from "./container";
-export * from "./decorator/decorators";
-export * from "./decorator/ValidationOptions";
-export * from "./validation/ValidatorConstraintInterface";
-export * from "./validation/ValidationError";
-export * from "./validation/ValidationTypeOptions";
-export * from "./validation/ValidatorOptions";
-export * from "./validation/ValidationArguments";
-export * from "./validation/ValidationTypes";
-export * from "./validation/Validator";
-export * from "./validation-schema/ValidationSchema";
-export * from "./register-decorator";
-export * from "./metadata/MetadataStorage";
+// export * from "./container";
+// export * from "./decorator/decorators";
+// export * from "./decorator/ValidationOptions";
+// export * from "./validation/ValidatorConstraintInterface";
+// export * from "./validation/ValidationError";
+// export * from "./validation/ValidationTypeOptions";
+// export * from "./validation/ValidatorOptions";
+// export * from "./validation/ValidationArguments";
+// export * from "./validation/ValidationTypes";
+// export * from "./validation/Validator";
+// export * from "./validation-schema/ValidationSchema";
+// export * from "./register-decorator";
+// export * from "./metadata/MetadataStorage";
+// FIXME: re-add exports above and all decorators here?
 
 // -------------------------------------------------------------------------
 // Shortcut methods for api users

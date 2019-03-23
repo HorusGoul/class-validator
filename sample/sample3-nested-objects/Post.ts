@@ -1,5 +1,6 @@
-import {Contains, IsInt, Length, IsEmail, IsFQDN, IsDate, ValidateNested} from "../../src/decorator/decorators";
 import {Tag} from "./Tag";
+import {Length} from "../../src/decorator/string/Length";
+import {ValidateNested} from "../../src/decorator/system/ValidateNested";
 
 export class Post {
 
