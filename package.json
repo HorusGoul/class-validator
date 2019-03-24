@@ -59,6 +59,7 @@
   },
   "scripts": {
     "build": "gulp package",
+    "publish-branch": "npm run build && ./publish-branch.sh",
     "test": "gulp tests"
   }
 }
